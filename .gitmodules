@@ -1,0 +1,3 @@
+[submodule "courses/fastai"]
+	path = courses/fastai
+	url = https://github.com/fastai/courses
