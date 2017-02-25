@@ -101,15 +101,14 @@ class Vgg16BN():
         model.pop()
         for layer in model.layers: layer.trainable=False
         model.add(Dense(num, activation='softmax'))
-        self.compile()
+        print('Finetuned for %s classes.' % num)
 
     def finetune(self, batches):
         model = self.model
         model.pop()
         for layer in model.layers: layer.trainable=False
         model.add(Dense(batches.nb_class, activation='softmax'))
-        self.compile()
-
+        print('Finetuned for %s classes.' % batches.nb_class)
 
     def compile(self, lr=0.001):
         self.model.compile(optimizer=Adam(lr=lr),

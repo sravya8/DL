@@ -133,7 +133,7 @@ def adjust_dropout(weights, prev_p, new_p):
 
 def get_data(path, target_size=(224,224)):
     batches = get_batches(path, shuffle=False, batch_size=1, class_mode=None, target_size=target_size)
-    return np.concatenate([batches.next() for i in range(batches.nb_sample)])
+    return (np.concatenate([batches.next() for i in range(batches.nb_sample)]), onehot(batches.classes))
 
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
@@ -217,7 +217,7 @@ def get_classes(path):
         val_batches.filenames, batches.filenames, test_batches.filenames)
 
 
-def split_at(model, layer_type):
+def split_at_last(model, layer_type):
     layers = model.layers
     layer_idx = [index for index,layer in enumerate(layers)
                  if type(layer) is layer_type][-1]
@@ -251,3 +251,12 @@ class MixIterator(object):
             n1 = np.concatenate([n[1] for n in nexts])
             return (n0, n1)
 
+def plot_history(historyList, metrics, y_label, model_description):
+    for i in metrics:
+	trn = np.concatenate([history.history[i] for history in historyList])
+    	plt.plot(trn)
+    plt.title('Model History - ' + model_description)
+    plt.ylabel(y_label)
+    plt.xlabel('epoch')
+    plt.legend(metrics, loc='upper left')
+    plt.show()
