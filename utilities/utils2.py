@@ -107,3 +107,5 @@ def fit_gen(gen, fn, eval_fn, nb_iter):
         fn(*next(gen))
         if i % (nb_iter//10) == 0: eval_fn()
 
+rn_mean = np.array([123.68, 116.779, 103.939], dtype=np.float32)
+preproc = lambda x: (x - rn_mean)[:, :, :, ::-1]
